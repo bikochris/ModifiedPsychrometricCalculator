@@ -33,8 +33,9 @@
 </head>
 <body>
     <h2>Psychrometric Calculator</h2>
-    <h3>Bikorimana Christian-Based on ASHRAE Fundamentals (SI) 2017 chapter 1. Page last updated :09/06/2024</h3>
-    <h4>Enter Temperature and Relative Humidity </h4>
+    <h3>Bikorimana Christian-Based on ASHRAE Fundamentals (SI) 2017 chapter 1. Page last updated :08/09/2024</h3>
+    <h4>Enter Temperature and Humidity </h4>
+   
     <table>
         <thead>
             <tr>
@@ -55,7 +56,11 @@
         </tbody>
     </table>
     <br>
-    <button onclick="calculateRegression()">Calculate</button>
+    <div id="regressionResults">
+        <p>Coefficient of Determination (R²) for Thermo and Tsec: <span id="rSquaredThermoTsec"></span></p>
+        <p>Coefficient of Determination (R²) for Hygro and RH: <span id="rSquaredHygroRh"></span></p>
+    </div>
+    <button onclick="calculateRegression()">Calculate Night Hours Data</button>
     <script>
         function moveCursorVertically(event, rowIndex, columnName) {
             if (event.key === 'Enter') {
@@ -166,12 +171,19 @@
             const thermoTsecData = hours.map((hour, index) => [thermoValues[index], tsecValues[index]]);
             const thermoTsecRegression = ss.linearRegression(thermoTsecData);
             const thermoTsecRegressionFunction = ss.linearRegressionLine(thermoTsecRegression);
+            const thermoTsecRSquared = ss.rSquared(thermoTsecData, thermoTsecRegressionFunction);
 
             // Calculate regression line for Hygro and RH
             const hygroRhData = hours.map((hour, index) => [hygroValues[index], rhValues[index]]);
             const hygroRhRegression = ss.linearRegression(hygroRhData);
             const hygroRhRegressionFunction = ss.linearRegressionLine(hygroRhRegression);
+            const hygroRhRSquared = ss.rSquared(hygroRhData, hygroRhRegressionFunction);
 
+
+            // Display R-squared values
+
+         document.getElementById('rSquaredThermoTsec').textContent = thermoTsecRSquared.toFixed(2);
+         document.getElementById('rSquaredHygroRh').textContent = hygroRhRSquared.toFixed(2);
             // Calculate missing Tsec and RH values and update the table
             for (let i = 0; i < 6; i++) {
                 const thermo = document.getElementById(`thermo-${i}`).value;
