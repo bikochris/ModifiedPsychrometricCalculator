@@ -28,8 +28,32 @@
         h3{
             color: blueviolet;
         }
+        .tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tab {
+    padding: 10px;
+    background-color: #f2f2f2;
+    cursor: pointer;
+    border: 1px solid black;
+    margin: 0 5px;
+}
+
+.tab.active {
+    background-color: #ccc;
+}
+
+#chartContainer {
+    width: 80%;
+    margin: auto;
+}
+
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-statistics/7.7.0/simple-statistics.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <h2>Psychrometric Calculator</h2>
@@ -61,6 +85,18 @@
         <p>Coefficient of Determination (R²) for Hygro and RH: <span id="rSquaredHygroRh"></span></p>
     </div>
     <button onclick="calculateRegression()">Calculate Night Hours Data</button>
+    <!-- Tabs for Graphs -->
+<div class="tabs">
+    <div class="tab active" onclick="showGraph('thermoTsecGraph')">Thermo vs Tsec</div>
+    <div class="tab" onclick="showGraph('hygroRhGraph')">Hygro vs RH</div>
+</div>
+
+<!-- Chart Container -->
+<div id="chartContainer">
+    <canvas id="thermoTsecGraph"></canvas>
+    <canvas id="hygroRhGraph" style="display:none;"></canvas>
+</div>
+
     <script>
         function moveCursorVertically(event, rowIndex, columnName) {
             if (event.key === 'Enter') {
@@ -184,6 +220,10 @@
 
          document.getElementById('rSquaredThermoTsec').textContent = thermoTsecRSquared.toFixed(2);
          document.getElementById('rSquaredHygroRh').textContent = hygroRhRSquared.toFixed(2);
+         // Draw graphs
+drawGraph('thermoTsecGraph', hours, thermoValues, tsecValues, 'Thermo', 'Tsec');
+drawGraph('hygroRhGraph', hours, hygroValues, rhValues, 'Hygro', 'RH');
+
             // Calculate missing Tsec and RH values and update the table
             for (let i = 0; i < 6; i++) {
                 const thermo = document.getElementById(`thermo-${i}`).value;
@@ -264,6 +304,47 @@
                 }
             }
         }
+        // Function to draw graph
+function drawGraph(canvasId, xData, yData1, yData2, label1, label2) {
+    const ctx = document.getElementById(canvasId).getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: xData,
+            datasets: [
+                {
+                    label: label1,
+                    data: yData1,
+                    borderColor: 'red',
+                    fill: false
+                },
+                {
+                    label: label2,
+                    data: yData2,
+                    borderColor: 'blue',
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: { title: { display: true, text: 'Hours' } },
+                y: { title: { display: true, text: label1 + ' / ' + label2 } }
+            }
+        }
+    });
+}
+// Show the correct graph based on the tab clicked
+function showGraph(graphId) {
+    document.querySelectorAll('canvas').forEach(canvas => canvas.style.display = 'none');
+    document.getElementById(graphId).style.display = 'block';
+
+    document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+    const activeTab = Array.from(document.getElementsByClassName('tab')).find(tab => tab.textContent === (graphId === 'thermoTsecGraph' ? 'Thermo vs Tsec' : 'Hygro vs RH'));
+    activeTab.classList.add('active');
+}
+
     </script>
 </body>
 </html>
