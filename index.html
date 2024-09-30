@@ -246,11 +246,11 @@ drawGraph('hygroRhGraph', hours, hygroValues, rhValues, 'Hygro', 'RH');
                     const tsecCell = document.getElementById(`tsec-${i}`);
                     const tsecKelvin = calculateTsecKelvin(tsec); // Calculate Tsec(K)
                     tsecCell.classList.add('bold');
-                    tsecCell.textContent = tsec.toFixed(2);
+                    tsecCell.textContent = tsec.toFixed(1);
 
                     const tsecKelvinCell = document.getElementById(`tsecKelvin-${i}`);
                     tsecKelvinCell.classList.add('bold');
-                    tsecKelvinCell.textContent = tsecKelvin.toFixed(2);
+                    tsecKelvinCell.textContent = tsecKelvin.toFixed(1);
 
                     if (hygro) {
                         const rh = hygroRhRegressionFunction(Number(hygro));
@@ -260,19 +260,19 @@ drawGraph('hygroRhGraph', hours, hygroValues, rhValues, 'Hygro', 'RH');
                         const tdCell = document.getElementById(`td-${i}`); // Get the Td cell
                         const diffCell = document.getElementById(`diff-${i}`); // Get the Diff cell
                         rhCell.classList.add('bold');
-                        rhCell.textContent = rh.toFixed(2);
+                        rhCell.textContent = rh.toFixed(0);
                         const r = calculateR(tsecKelvin, rh); // Calculate r
                         rCell.classList.add('bold');
-                        rCell.textContent = r.toFixed(2); // Display r
+                        rCell.textContent = (r / 100).toFixed(1);// Display r
                         const rhTimesR = calculateRhTimesR(tsec, rh); // Calculate RH * r
                         rhTimesRCell.classList.add('bold');
-                        rhTimesRCell.textContent = rhTimesR.toFixed(2); // Display RH * r
+                        rhTimesRCell.textContent = rhTimesR.toFixed(1); // Display RH * r
                         const td = calculateTd(r); // Calculate Td
                         tdCell.classList.add('bold');
-                        tdCell.textContent = td.toFixed(2); // Display Td
+                        tdCell.textContent = td.toFixed(1); // Display Td
                         const diff = calculateDiff(rhTimesR, tsec); // Calculate Diff
                         diffCell.classList.add('bold');
-                        diffCell.textContent = diff.toFixed(2); // Display Diff
+                        diffCell.textContent = diff.toFixed(1); // Display Diff
                     }
                 }
             }
@@ -286,11 +286,11 @@ drawGraph('hygroRhGraph', hours, hygroValues, rhValues, 'Hygro', 'RH');
                     const tsecCell = document.getElementById(`tsec-${i}`);
                     const tsecKelvin = calculateTsecKelvin(tsec); // Calculate Tsec(K)
                     tsecCell.classList.add('bold');
-                    tsecCell.textContent = tsec.toFixed(2);
+                    tsecCell.textContent = tsec.toFixed(1);
 
                     const tsecKelvinCell = document.getElementById(`tsecKelvin-${i}`);
                     tsecKelvinCell.classList.add('bold');
-                    tsecKelvinCell.textContent = tsecKelvin.toFixed(2);
+                    tsecKelvinCell.textContent = tsecKelvin.toFixed(1);
 
                     if (hygro) {
                         const rh = hygroRhRegressionFunction(Number(hygro));
@@ -300,19 +300,19 @@ drawGraph('hygroRhGraph', hours, hygroValues, rhValues, 'Hygro', 'RH');
                         const tdCell = document.getElementById(`td-${i}`); // Get the Td cell
                         const diffCell = document.getElementById(`diff-${i}`); // Get the Diff cell
                         rhCell.classList.add('bold');
-                        rhCell.textContent = rh.toFixed(2);
+                        rhCell.textContent = rh.toFixed(0);
                         const r = calculateR(tsecKelvin, rh); // Calculate r
                         rCell.classList.add('bold');
-                        rCell.textContent = r.toFixed(2); // Display r
+                        rCell.textContent = r.toFixed(1); // Display r
                         const rhTimesR = calculateRhTimesR(tsec, rh); // Calculate RH * r
                         rhTimesRCell.classList.add('bold');
-                        rhTimesRCell.textContent = rhTimesR.toFixed(2); // Display RH * r
+                        rhTimesRCell.textContent = rhTimesR.toFixed(1); // Display RH * r
                         const td = calculateTd(r); // Calculate Td
                         tdCell.classList.add('bold');
-                        tdCell.textContent = td.toFixed(2); // Display Td
+                        tdCell.textContent = td.toFixed(1); // Display Td
                         const diff = calculateDiff(rhTimesR, tsec); // Calculate Diff
                         diffCell.classList.add('bold');
-                        diffCell.textContent = diff.toFixed(2); // Display Diff
+                        diffCell.textContent = diff.toFixed(1); // Display Diff
                     }
                 }
             }
